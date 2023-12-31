@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
         Artisan::call('route:clear');
         Artisan::call('config:clear');
         Artisan::call('view:clear');
-        return "Cache cleared successfully";
+        return "Cache cleared successfully.";
     });
     
 
