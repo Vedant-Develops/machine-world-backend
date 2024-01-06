@@ -1,0 +1,6 @@
+{
+    "name": "apiato/role",
+    "description": "Role Container for apiato.",
+    "require": {
+    }
+}

@@ -1,5 +1,7 @@
 <?php
 
+//use App\Containers\AppSection\Tenantusers\Models\Tenantusers;
+
 return [
 
     /*
@@ -46,6 +48,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'tenant' => [
+            'driver' => 'passport',
+            'provider' => 'tenant',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -71,6 +78,10 @@ return [
             'model' => env('USER_NAMESPACE') . User::class,
         ],
 
+        'tenant' => [
+            'driver' => 'eloquent',
+            'model' => env('TENANT_NAMESPACE') . Tenantusers::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

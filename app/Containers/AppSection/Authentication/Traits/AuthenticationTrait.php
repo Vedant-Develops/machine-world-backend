@@ -2,14 +2,15 @@
 
 namespace App\Containers\AppSection\Authentication\Traits;
 
-use App\Containers\AppSection\User\Models\User;
+use App\Containers\AppSection\Tenantusers\Models\Tenantusers;
+// use App\Containers\AppSection\User\Models\User;
 
 trait AuthenticationTrait
 {
     /**
      * Allows Passport to authenticate users with custom fields.
      */
-    public function findForPassport($identifier): ?User
+    public function findForPassport($identifier): ?Tenantusers
     {
         $allowedLoginAttributes = config('appSection-authentication.login.attributes', ['email' => []]);
 

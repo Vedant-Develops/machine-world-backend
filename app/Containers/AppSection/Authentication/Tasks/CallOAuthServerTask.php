@@ -23,6 +23,7 @@ class CallOAuthServerTask extends ParentTask
         ];
 
         $request = Request::create($authFullApiUrl, 'POST', $data, server: $headers);
+
         $response = App::handle($request);
         $content = Utils::jsonDecode($response->getContent(), true);
 
