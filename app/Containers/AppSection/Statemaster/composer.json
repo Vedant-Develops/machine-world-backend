@@ -1,0 +1,6 @@
+{
+    "name": "apiato/statemaster",
+    "description": "Statemaster Container for apiato.",
+    "require": {
+    }
+}

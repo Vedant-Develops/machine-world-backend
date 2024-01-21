@@ -19,13 +19,19 @@ class UpdateTenantusersByFieldsTask extends ParentTask
         $this->repository = $repository;
     }
 
-   
+
     public function  run($id, $InputData)
     {
         try {
             $field_db = $InputData->getFieldDB();
             $search_val = $InputData->getSearchVal();
-            $update_status = Tenantusers::where('id', $id)->update([$field_db => $search_val]);
+            if ($field_db == "email" || $field_db == "password" || $field_db == "user_has_key" || $field_db == "role_id") {
+                $returnData['message'] = "Sorry Cannot Update Given Field, Please Contact Admin";
+                return $returnData;
+            } else {
+                $update_status = Tenantusers::where('id', $id)->update([$field_db => $search_val]);
+            }
+
             if ($update_status == 1) {
                 $returnData['message'] = "Field Updated Succesfully";
             } else {

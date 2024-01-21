@@ -19,5 +19,4 @@
 use App\Containers\AppSection\Tenantusers\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::post('forgotpassword', [Controller::class, 'resetTenantusersPassword'])
-    ->middleware(['auth:tenant']);
+Route::post('forgotpassword', [Controller::class, 'resetTenantusersPassword']);

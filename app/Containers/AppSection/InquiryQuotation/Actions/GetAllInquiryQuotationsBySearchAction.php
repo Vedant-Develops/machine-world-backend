@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Containers\AppSection\InquiryQuotation\Actions;
+
+use Apiato\Core\Exceptions\CoreInternalErrorException;
+use App\Containers\AppSection\InquiryQuotation\Tasks\GetAllInquiryQuotationsBySearchTask;
+use App\Containers\AppSection\InquiryQuotation\UI\API\Requests\GetAllInquiryQuotationsRequest;
+use App\Ship\Parents\Actions\Action as ParentAction;
+use Prettus\Repository\Exceptions\RepositoryException;
+
+class GetAllInquiryQuotationsBySearchAction extends ParentAction
+{
+
+    public function run(GetAllInquiryQuotationsRequest $request, $InputData)
+    {
+        return app(GetAllInquiryQuotationsBySearchTask::class)->run($InputData);
+    }
+}
