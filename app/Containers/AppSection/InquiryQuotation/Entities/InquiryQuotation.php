@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class InquiryQuotation
 {
     protected $inquiry_type;
+    protected $existing_machines;
     protected $inquiry_code;
     protected $client_name;
     protected $email;
@@ -46,6 +47,7 @@ class InquiryQuotation
 
     public function __construct($request = null)
     {
+        $this->existing_machines = isset($request['existing_machines']) ? $request['existing_machines'] : null;
         $this->village = isset($request['village']) ? $request['village'] : null;
         $this->inquiry_type = isset($request['inquiry_type']) ? $request['inquiry_type'] : null;
         $this->inquiry_code = isset($request['inquiry_code']) ? $request['inquiry_code'] : null;
@@ -81,6 +83,11 @@ class InquiryQuotation
         $this->search_val =  isset($request['search_val']) ? $request['search_val'] : null;
         $this->field_db =  isset($request['field_db']) ? $request['field_db'] : null;
         $this->per_page = isset($request['per_page']) ? $request['per_page'] : null;
+    }
+
+    public function getExistingMachines()
+    {
+        return $this->existing_machines;
     }
 
     public function getInquiryType()

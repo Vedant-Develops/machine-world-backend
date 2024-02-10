@@ -54,6 +54,7 @@ class UpdateInquiryQuotationAction extends ParentAction
             'address' => $InputData->getAddress(),
             'company_name' => $InputData->getCompanyName(),
             'followup_date' => $InputData->getFollowupDate(),
+            'existing_machines' => $InputData->getExistingMachines(),
             'remarks' => $InputData->getRemarks(),
             'delivery_time_period' => $InputData->getDeliveryTimePeriod(),
             'updated_by' => $getUser['id'],
@@ -67,8 +68,8 @@ class UpdateInquiryQuotationAction extends ParentAction
         if (!empty($create_product)) {
             for ($i = 0; $i < count($create_product); $i++) {
                 $create_data_quotation[$i] = $request->sanitizeInput([
-                    'client_inquiry_id' => $check_quotation_code->client_inquiry_id,
-                    'inquiry_code' => $check_quotation_code->inquiry_code,
+                    'client_inquiry_id' => $get_cl_inquiry->id,
+                    'inquiry_code' => $get_cl_inquiry->inquiry_code,
                     'quotation_code' => $quo_code,
                     'product_name' => $create_product[$i]['product_name'],
                     'qty' => $create_product[$i]['qty'],

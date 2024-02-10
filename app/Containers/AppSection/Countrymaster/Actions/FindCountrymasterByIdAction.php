@@ -10,10 +10,8 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 
 class FindCountrymasterByIdAction extends ParentAction
 {
-    /**
-     * @throws NotFoundException
-     */
-    public function run(FindCountrymasterByIdRequest $request): Countrymaster
+
+    public function run(FindCountrymasterByIdRequest $request)
     {
         return app(FindCountrymasterByIdTask::class)->run($request->id);
     }

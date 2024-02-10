@@ -10,13 +10,8 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 
 class DeleteCountrymasterAction extends ParentAction
 {
-    /**
-     * @param DeleteCountrymasterRequest $request
-     * @return int
-     * @throws DeleteResourceFailedException
-     * @throws NotFoundException
-     */
-    public function run(DeleteCountrymasterRequest $request): int
+
+    public function run(DeleteCountrymasterRequest $request)
     {
         return app(DeleteCountrymasterTask::class)->run($request->id);
     }

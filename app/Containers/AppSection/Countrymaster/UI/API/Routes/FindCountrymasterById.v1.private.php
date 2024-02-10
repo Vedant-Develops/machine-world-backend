@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Countrymaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('countrymasters/{id}', [Controller::class, 'findCountrymasterById'])
-    ->middleware(['auth:api']);
-
+Route::get('findcountrymasters/{id}', [Controller::class, 'findCountrymasterById'])
+    ->middleware(['auth:tenant']);

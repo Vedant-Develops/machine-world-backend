@@ -22,6 +22,7 @@ class ClientInquiry extends ParentModel
         'address',
         'company_name',
         'followup_date',
+        'existing_machines',
         'remarks',
         'delivery_time_period',
         'is_active',

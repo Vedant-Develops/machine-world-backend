@@ -48,6 +48,7 @@ class CreateInquiryQuotationAction extends ParentAction
             'address' => $InputData->getAddress(),
             'company_name' => $InputData->getCompanyName(),
             'followup_date' => $InputData->getFollowupDate(),
+            'existing_machines' => $InputData->getExistingMachines(),
             'remarks' => $InputData->getRemarks(),
             'delivery_time_period' => $InputData->getDeliveryTimePeriod(),
             'is_active' => 1,

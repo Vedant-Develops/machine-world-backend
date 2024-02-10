@@ -49,7 +49,7 @@ class ProxyLoginForTenantWebClientAction extends ParentAction
             $responseContent = $this->callOAuthServerTask->run($sanitizedData, $request->headers->get('accept-language'));
             $refreshCookie = $this->makeRefreshCookieTask->run($responseContent['refresh_token']);
 
-            $responseContent['role_id'] = (string)$userData->role_id;
+            $responseContent['role_id'] = $this->encode($userData->role_id);
             $responseContent['user_id'] = $this->encode($userData->id);
 
             return [

@@ -29,14 +29,14 @@ class UpdateInquiryQuotationTask extends ParentTask
             $update = ClientInquiry::where('id', $id)->update($data);
             if (!empty($create_data_quotation)) {
                 for ($i = 0; $i < count($create_data_quotation); $i++) {
-                    $create_quotation[$i] = Quotation::create($create_data_quotation[$i]);
+                    $create_quotation = Quotation::create($create_data_quotation[$i]);
                 }
             }
             $update_product = $InputData->getUpdateProducts();
             if (!empty($update_data_quotation)) {
                 for ($i = 0, $j = 0; $i < count($update_data_quotation), $j < count($update_product); $i++, $j++) {
                     $id = $this->decode($update_product[$j]['id']);
-                    $update_quotation[$i] = Quotation::where('id', $id)->update($update_data_quotation[$i]);
+                    $update_quotation = Quotation::where('id', $id)->update($update_data_quotation[$i]);
                 }
             }
             if ($update) {

@@ -42,6 +42,7 @@ class FindInquiryQuotationByIdTask extends ParentTask
                 $returnData['data']['address'] = $getData->address;
                 $returnData['data']['company_name'] = $getData->company_name;
                 $returnData['data']['followup_date'] = $getData->followup_date;
+                $returnData['data']['existing_machines'] = $getData->existing_machines;
                 $returnData['data']['remarks'] = $getData->remarks;
                 $returnData['data']['delivery_time_period'] = $getData->delivery_time_period;
                 $returnData['data']['is_active'] = $getData->is_active;

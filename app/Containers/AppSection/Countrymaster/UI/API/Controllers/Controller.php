@@ -9,6 +9,8 @@ use App\Containers\AppSection\Countrymaster\Actions\DeleteCountrymasterAction;
 use App\Containers\AppSection\Countrymaster\Actions\FindCountrymasterByIdAction;
 use App\Containers\AppSection\Countrymaster\Actions\GetAllCountrymastersAction;
 use App\Containers\AppSection\Countrymaster\Actions\UpdateCountrymasterAction;
+use App\Containers\AppSection\Countrymaster\Actions\GetAllCountrymastersBySearchAction;
+use App\Containers\AppSection\Countrymaster\Entities\Countrymaster;
 use App\Containers\AppSection\Countrymaster\UI\API\Requests\CreateCountrymasterRequest;
 use App\Containers\AppSection\Countrymaster\UI\API\Requests\DeleteCountrymasterRequest;
 use App\Containers\AppSection\Countrymaster\UI\API\Requests\FindCountrymasterByIdRequest;
@@ -25,30 +27,19 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class Controller extends ApiController
 {
-    /**
-     * @param CreateCountrymasterRequest $request
-     * @return JsonResponse
-     * @throws InvalidTransformerException
-     * @throws CreateResourceFailedException
-     */
-    public function createCountrymaster(CreateCountrymasterRequest $request): JsonResponse
-    {
-        $countrymaster = app(CreateCountrymasterAction::class)->run($request);
 
-        return $this->created($this->transform($countrymaster, CountrymasterTransformer::class));
+    public function createCountrymaster(CreateCountrymasterRequest $request)
+    {
+        $InputData = new Countrymaster($request);
+        $countrymaster = app(CreateCountrymasterAction::class)->run($request, $InputData);
+        return $countrymaster;
     }
 
-    /**
-     * @param FindCountrymasterByIdRequest $request
-     * @return array
-     * @throws InvalidTransformerException
-     * @throws NotFoundException
-     */
-    public function findCountrymasterById(FindCountrymasterByIdRequest $request): array
+
+    public function findCountrymasterById(FindCountrymasterByIdRequest $request)
     {
         $countrymaster = app(FindCountrymasterByIdAction::class)->run($request);
-
-        return $this->transform($countrymaster, CountrymasterTransformer::class);
+        return $countrymaster;
     }
 
 
@@ -58,28 +49,29 @@ class Controller extends ApiController
         return $countrymasters;
     }
 
-    /**
-     * @param UpdateCountrymasterRequest $request
-     * @return array
-     * @throws InvalidTransformerException
-     * @throws UpdateResourceFailedException
-     */
-    public function updateCountrymaster(UpdateCountrymasterRequest $request): array
+    public function getAllCountrymastersBySearch(GetAllCountrymastersRequest $request)
     {
-        $countrymaster = app(UpdateCountrymasterAction::class)->run($request);
 
-        return $this->transform($countrymaster, CountrymasterTransformer::class);
+        $InputData = new Countrymaster($request);
+        $countrymasters = app(GetAllCountrymastersBySearchAction::class)->run($request, $InputData);
+        return $countrymasters;
     }
 
-    /**
-     * @param DeleteCountrymasterRequest $request
-     * @return JsonResponse
-     * @throws DeleteResourceFailedException
-     */
-    public function deleteCountrymaster(DeleteCountrymasterRequest $request): JsonResponse
+    public function updateCountrymaster(UpdateCountrymasterRequest $request)
     {
-        app(DeleteCountrymasterAction::class)->run($request);
 
-        return $this->noContent();
+        $InputData = new Countrymaster($request);
+        $countrymaster = app(UpdateCountrymasterAction::class)->run($request, $InputData);
+        return $countrymaster;
+    }
+
+
+
+
+    public function deleteCountrymaster(DeleteCountrymasterRequest $request)
+    {
+        $countrymaster = app(DeleteCountrymasterAction::class)->run($request);
+
+        return $countrymaster;
     }
 }

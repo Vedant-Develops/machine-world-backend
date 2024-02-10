@@ -12,18 +12,26 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 
 class UpdateCountrymasterAction extends ParentAction
 {
-    /**
-     * @param UpdateCountrymasterRequest $request
-     * @return Countrymaster
-     * @throws UpdateResourceFailedException
-     * @throws IncorrectIdException
-     * @throws NotFoundException
-     */
-    public function run(UpdateCountrymasterRequest $request): Countrymaster
+
+    public function run(UpdateCountrymasterRequest $request, $InputData)
     {
-        $data = $request->sanitizeInput([
-            // add your request data here
-        ]);
+        $data = [];
+        if (Countrymaster::where('id', '!=', $request->id)->where('country', $InputData->getCountry())->whereNull('deleted_at')->count() == 0) {
+            if ($InputData->getFlag() == "status") {
+                $data = $request->sanitizeInput([
+                    "is_active" => $InputData->getIsActive(),
+                ]);
+            } else {
+                $data = $request->sanitizeInput([
+                    "country" => $InputData->getCountry(),
+                ]);
+            }
+        } else {
+            $returnData['result'] = false;
+            $returnData['message'] = "Country Already Exists";
+            $returnData['object'] = "countrymaster";
+            return $returnData;
+        }
 
         return app(UpdateCountrymasterTask::class)->run($data, $request->id);
     }

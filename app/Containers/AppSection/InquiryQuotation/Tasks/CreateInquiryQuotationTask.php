@@ -47,6 +47,7 @@ class CreateInquiryQuotationTask extends ParentTask
                 'address' => $create->address,
                 'company_name' => $create->company_name,
                 'followup_date' => $create->followup_date,
+                'existing_machines' => $create->existing_machines,
                 'remarks' => $create->remarks,
                 'delivery_time_period' => $create->delivery_time_period,
                 'is_active' => $create->is_active,

@@ -24,7 +24,7 @@ class FindTenantusersByIdTask extends ParentTask
             $image_api_url = Themesettings::where('id', 1)->first();
             $getData = Tenantusers::where('id', $id)->first();
             if (!empty($getData)) {
-                $returnData['result'] = true;
+
                 $returnData['message'] = "Data found";
                 $returnData['data']['object'] = "tenantusers";
                 $returnData['data']['id'] = $this->encode($getData->id);

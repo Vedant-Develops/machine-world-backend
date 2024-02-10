@@ -26,6 +26,7 @@ class ConsoleKernel extends LaravelConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('apiato:FollowUpReminder')->dailyAt('4:00');
     }
 
     /**

@@ -26,6 +26,7 @@ class ProductsTransformer extends ParentTransformer
             "width" => $products->width,
             "length" => $products->length,
             "weight" => $products->weight,
+            "power" => $products->power,
             "product_video" => ($products->product_video) ? $image_api_url->image_api_url . $products->product_video : "",
             "product_image" => ($products->product_image) ? $image_api_url->image_api_url . $products->product_image : "",
             "product_specification" => $products->product_specification,

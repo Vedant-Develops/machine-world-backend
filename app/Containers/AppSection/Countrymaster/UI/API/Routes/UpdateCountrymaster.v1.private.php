@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Countrymaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::patch('countrymasters/{id}', [Controller::class, 'updateCountrymaster'])
-    ->middleware(['auth:api']);
-
+Route::post('updatecountrymasters/{id}', [Controller::class, 'updateCountrymaster'])
+    ->middleware(['auth:tenant']);

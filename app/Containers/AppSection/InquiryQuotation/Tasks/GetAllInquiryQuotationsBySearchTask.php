@@ -33,7 +33,7 @@ class GetAllInquiryQuotationsBySearchTask extends ParentTask
             } else {
                 $getData = ClientInquiry::where($field_db, 'like', '%' . $search_val . '%')->paginate($per_page);
             }
-            $returnData_prod = [];
+
             if (!empty($getData) && count($getData) >= 1) {
                 $returnData['message'] = "Data found";
 
@@ -51,14 +51,14 @@ class GetAllInquiryQuotationsBySearchTask extends ParentTask
                     $returnData['data'][$i]['address'] = $getData[$i]->address;
                     $returnData['data'][$i]['company_name'] = $getData[$i]->company_name;
                     $returnData['data'][$i]['followup_date'] = $getData[$i]->followup_date;
+                    $returnData['data'][$i]['existing_machines'] = $getData[$i]->existing_machines;
                     $returnData['data'][$i]['remarks'] = $getData[$i]->remarks;
                     $returnData['data'][$i]['delivery_time_period'] = $getData[$i]->delivery_time_period;
                     $returnData['data'][$i]['is_active'] = $getData[$i]->is_active;
                     $returnData['data'][$i]['created_by'] =  $this->encode($getData[$i]->created_by);
                     $returnData['data'][$i]['updated_by'] =  $this->encode($getData[$i]->updated_by);
                     $product_data = Quotation::where('client_inquiry_id', $getData[$i]->id)->get();
-
-
+                    $returnData_prod = [];
                     if (!empty($product_data)) {
                         for ($j = 0; $j < count($product_data); $j++) {
                             $returnData_prod[$j]['id'] = $this->encode($product_data[$j]->id);

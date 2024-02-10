@@ -11,17 +11,21 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 
 class CreateCountrymasterAction extends ParentAction
 {
-    /**
-     * @param CreateCountrymasterRequest $request
-     * @return Countrymaster
-     * @throws CreateResourceFailedException
-     * @throws IncorrectIdException
-     */
-    public function run(CreateCountrymasterRequest $request): Countrymaster
+
+    public function run(CreateCountrymasterRequest $request, $InputData)
     {
-        $data = $request->sanitizeInput([
-            // add your request data here
-        ]);
+        $data = [];
+        if (Countrymaster::where('country', $InputData->getCountry())->whereNull('deleted_at')->count() == 0) {
+            $data = $request->sanitizeInput([
+                "country" => $InputData->getCountry(),
+                "is_active" => 1
+            ]);
+        } else {
+            $returnData['result'] = false;
+            $returnData['message'] = "Country Already Exists";
+            $returnData['object'] = "countrymaster";
+            return $returnData;
+        }
 
         return app(CreateCountrymasterTask::class)->run($data);
     }

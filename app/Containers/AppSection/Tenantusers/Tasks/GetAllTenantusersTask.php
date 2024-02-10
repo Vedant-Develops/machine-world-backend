@@ -38,7 +38,6 @@ class GetAllTenantusersTask extends ParentTask
             }
             if (!empty($getData) && count($getData) >= 1) {
                 for ($i = 0; $i < count($getData); $i++) {
-                    $returnData['result'] = true;
                     $returnData['message'] = "Data found";
                     $returnData['data'][$i]['object'] = "tenantusers";
                     $returnData['data'][$i]['id'] = $this->encode($getData[$i]->id);

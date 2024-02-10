@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Countrymaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::delete('countrymasters/{id}', [Controller::class, 'deleteCountrymaster'])
-    ->middleware(['auth:api']);
-
+Route::get('deletecountrymasters/{id}', [Controller::class, 'deleteCountrymaster'])
+    ->middleware(['auth:tenant']);
