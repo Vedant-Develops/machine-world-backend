@@ -7,10 +7,12 @@ use Apiato\Core\Exceptions\InvalidTransformerException;
 use App\Containers\AppSection\InquiryQuotation\Actions\CreateInquiryQuotationAction;
 use App\Containers\AppSection\InquiryQuotation\Actions\DeleteInquiryQuotationAction;
 use App\Containers\AppSection\InquiryQuotation\Actions\FindInquiryQuotationByIdAction;
+use App\Containers\AppSection\InquiryQuotation\Actions\GetNotificationByUseridAction;
 use App\Containers\AppSection\InquiryQuotation\Actions\GetAllInquiryQuotationsAction;
 use App\Containers\AppSection\InquiryQuotation\Actions\GetAllInquiryQuotationsBySearchAction;
 use App\Containers\AppSection\InquiryQuotation\Actions\GetAllQuotationsBySearchAction;
 use App\Containers\AppSection\InquiryQuotation\Actions\UpdateInquiryQuotationAction;
+use App\Containers\AppSection\InquiryQuotation\Actions\UpdateFollowupNotificationAction;
 use App\Containers\AppSection\InquiryQuotation\Entities\InquiryQuotation;
 use App\Containers\AppSection\InquiryQuotation\UI\API\Requests\CreateInquiryQuotationRequest;
 use App\Containers\AppSection\InquiryQuotation\UI\API\Requests\DeleteInquiryQuotationRequest;
@@ -44,6 +46,13 @@ class Controller extends ApiController
 
         return $inquiryquotation;
     }
+    public function getNotificationByUserid(FindInquiryQuotationByIdRequest $request)
+    {
+
+        $inquiryquotation = app(GetNotificationByUseridAction::class)->run($request);
+        return $inquiryquotation;
+    }
+
 
 
     public function getAllInquiryQuotations(GetAllInquiryQuotationsRequest $request)
@@ -52,6 +61,7 @@ class Controller extends ApiController
 
         return $inquiryquotations;
     }
+
 
     public function GetAllInquiryQuotationsBySearch(GetAllInquiryQuotationsRequest $request)
     {
@@ -72,6 +82,13 @@ class Controller extends ApiController
     {
         $InputData = new InquiryQuotation($request);
         $inquiryquotation = app(UpdateInquiryQuotationAction::class)->run($request, $InputData);
+        return $inquiryquotation;
+    }
+
+    public function updateFollowupNotification(UpdateInquiryQuotationRequest $request)
+    {
+        $InputData = new InquiryQuotation($request);
+        $inquiryquotation = app(UpdateFollowupNotificationAction::class)->run($request, $InputData);
         return $inquiryquotation;
     }
 
