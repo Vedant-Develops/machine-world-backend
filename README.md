@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center">
    <img src="https://github.com/apiato/documentation/blob/master/images/apiato.jpg" alt="Apiato Logo"/>
 </p>
@@ -100,3 +101,13 @@ All security vulnerabilities will be promptly addressed.
 [bronze-sponsors-src]: https://opencollective.com/apiato/tiers/bronze-sponsors.svg?avatarHeight=48&width=890&button=false&isActive=true
 
 [bronze-sponsors-href]: https://opencollective.com/apiato#contributors
+=======
+# machine-world-backend
+A Backend I build for a freelance project. The Client needed a Web Application to manage his Inquiries, Quotations & Reports.
+ - Role based Permissions were managed here.
+ - Email Functionality is implemented.
+ - Notifications Using Cron Job Was handled.
+ - User Audits logic implemented, so that the admin could oversee what the employess did throughout the day.
+ - Country, State and City masters module were introduced.
+ - For Personalization, a Themesettings module implemented so that the client and can change the theme and personalize the system to his needs.
+>>>>>>> 6acab7b17919c6bfb29fcd65bf63e172d79e1eca
