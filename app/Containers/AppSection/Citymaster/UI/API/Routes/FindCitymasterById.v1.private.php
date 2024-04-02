@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Citymaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('citymasters/{id}', [Controller::class, 'findCitymasterById'])
-    ->middleware(['auth:api']);
-
+Route::get('findcitymasters/{id}', [Controller::class, 'findCitymasterById'])
+    ->middleware(['auth:tenant']);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Containers\AppSection\Citymaster\Entities;
+namespace App\Containers\AppSection\Statemaster\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,12 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="jp_tenantusers")
  */
-class Citymaster
+class Statemaster
 {
-    protected $flag;
     protected $country_id;
+    protected $flag;
     protected $state_id;
-    protected $city;
+    protected $country;
+    protected $state;
     protected $is_active;
 
     protected $search_val;
@@ -25,17 +26,21 @@ class Citymaster
         $this->flag =  isset($request['flag']) ? $request['flag'] : null;
         $this->country_id =  isset($request['country_id']) ? $request['country_id'] : null;
         $this->state_id =  isset($request['state_id']) ? $request['state_id'] : null;
-        $this->city =  isset($request['city']) ? $request['city'] : null;
+        $this->country =  isset($request['country']) ? $request['country'] : null;
+        $this->state =  isset($request['state']) ? $request['state'] : null;
         $this->is_active =  isset($request['is_active']) ? $request['is_active'] : null;
 
         $this->search_val =  isset($request['search_val']) ? $request['search_val'] : null;
         $this->field_db =  isset($request['field_db']) ? $request['field_db'] : null;
         $this->per_page = isset($request['per_page']) ? $request['per_page'] : null;
     }
+
+
     public function getFlag()
     {
         return $this->flag;
     }
+
     public function getCountryId()
     {
         return $this->country_id;
@@ -46,9 +51,13 @@ class Citymaster
         return $this->state_id;
     }
 
-    public function getCity()
+    public function getCountry()
     {
-        return $this->city;
+        return $this->country;
+    }
+    public function getState()
+    {
+        return $this->state;
     }
 
     public function getIsActive()

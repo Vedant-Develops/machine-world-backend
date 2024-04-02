@@ -31,7 +31,16 @@ class Themesettings extends ParentModel
         'instagram_link',
         'youtube_link',
         'image_api_url',
-        'sms_otp_api_key'
+        'sms_otp_api_key',
+        'cgst',
+        'sgst',
+        'igst',
+        'bank_acc_no',
+        'bank_name',
+        'ifsc_no',
+        'gst_no',
+        'office_address',
+        'factory_address'
     ];
 
     protected $hidden = [];

@@ -26,6 +26,16 @@ class Themesettings
     protected $ios_play_store_link;
     protected $recaptcha_key;
     protected $recaptcha_secret;
+    protected $cgst;
+    protected $igst;
+    protected $sgst;
+
+    protected $bank_acc_no;
+    protected $bank_name;
+    protected $ifsc_no;
+    protected $gst_no;
+    protected $office_address;
+    protected $factory_address;
 
     protected $facebook_link;
     protected $instagram_link;
@@ -39,6 +49,9 @@ class Themesettings
 
     public function __construct($request = null)
     {
+        $this->cgst             = isset($request['cgst']) ? $request['cgst'] : null;
+        $this->igst             = isset($request['igst']) ? $request['igst'] : null;
+        $this->sgst             = isset($request['sgst']) ? $request['sgst'] : null;
         $this->image_api_url             = isset($request['image_api_url']) ? $request['image_api_url'] : null;
         $this->name             = isset($request['name']) ? $request['name'] : null;
         $this->address             = isset($request['address']) ? $request['address'] : null;
@@ -65,6 +78,13 @@ class Themesettings
         $this->instagram_link             = isset($request['instagram_link']) ? $request['instagram_link'] : null;
         $this->youtube_link             = isset($request['youtube_link']) ? $request['youtube_link'] : null;
 
+        $this->bank_acc_no             = isset($request['bank_acc_no']) ? $request['bank_acc_no'] : null;
+        $this->bank_name             = isset($request['bank_name']) ? $request['bank_name'] : null;
+        $this->ifsc_no             = isset($request['ifsc_no']) ? $request['ifsc_no'] : null;
+        $this->gst_no             = isset($request['gst_no']) ? $request['gst_no'] : null;
+        $this->office_address             = isset($request['office_address']) ? $request['office_address'] : null;
+        $this->factory_address             = isset($request['factory_address']) ? $request['factory_address'] : null;
+
         $this->keyword           = isset($request['keyword']) ? $request['keyword'] : null;
         $this->search_val        = isset($request['search_val']) ? $request['search_val'] : null;
         $this->field_db          = isset($request['field_db']) ? $request['field_db'] : null;
@@ -76,6 +96,54 @@ class Themesettings
     {
         return $this->image_api_url;
     }
+
+    public function getCgst()
+    {
+        return $this->cgst;
+    }
+
+    public function getSgst()
+    {
+        return $this->sgst;
+    }
+
+    public function getIgst()
+    {
+        return $this->igst;
+    }
+
+
+    public function getBankAccNo()
+    {
+        return $this->bank_acc_no;
+    }
+
+    public function getBankName()
+    {
+        return $this->bank_name;
+    }
+
+    public function getIFSCNo()
+    {
+        return $this->ifsc_no;
+    }
+
+    public function getGSTNo()
+    {
+        return $this->gst_no;
+    }
+
+    public function getOfficeAddress()
+    {
+        return $this->office_address;
+    }
+
+    public function getFactoryAddress()
+    {
+        return $this->factory_address;
+    }
+
+
 
     public function getName()
     {

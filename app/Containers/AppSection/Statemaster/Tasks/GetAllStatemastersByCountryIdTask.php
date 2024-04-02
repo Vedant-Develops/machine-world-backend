@@ -22,14 +22,15 @@ class GetAllStatemastersByCountryIdTask extends ParentTask
     public function run($id)
     {
         try {
-            $getData = Statemaster::where('country_id', $id)->get();
+            $getData = Statemaster::where('country_id', $id)->where('is_active', 1)->get();
+
             $returnData = array();
             if (!empty($getData) && count($getData) >= 1) {
                 $returnData['message'] = "Data Found";
                 for ($i = 0; $i < count($getData); $i++) {
                     $returnData['data'][$i]['object'] = "mw_statemaster";
                     $returnData['data'][$i]['id'] = $this->encode($getData[$i]->id);
-                    $returnData['data'][$i]['country_id'] =  $this->encode($getData[$i]->country_id);
+                    $returnData['data'][$i]['country_id'] = $this->encode($getData[$i]->country_id);
                     $returnData['data'][$i]['state'] = $getData[$i]->state;
                     $returnData['data'][$i]['is_active'] = $getData[$i]->is_active;
                     $returnData['data'][$i]['created_at'] = $getData[$i]->created_at;

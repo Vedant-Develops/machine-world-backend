@@ -4,6 +4,8 @@ namespace App\Containers\AppSection\UserActivity\Tasks;
 
 use Apiato\Core\Exceptions\CoreInternalErrorException;
 use Apiato\Core\Traits\HashIdTrait;
+use App\Containers\AppSection\Tenantusers\Entities\Tenantusers as EntitiesTenantusers;
+use App\Containers\AppSection\Tenantusers\Models\Tenantusers;
 use App\Containers\AppSection\UserActivity\Data\Repositories\UserActivityRepository;
 use App\Containers\AppSection\UserActivity\Models\UserActivity;
 use App\Ship\Parents\Tasks\Task as ParentTask;
@@ -58,6 +60,8 @@ class GetAllUserActivitiesBySearchTask extends ParentTask
                     $returnData['data'][$i]['object'] = "mw_user_activity";
                     $returnData['data'][$i]['id'] = $this->encode($getData[$i]->id);
                     $returnData['data'][$i]['user_id'] = $this->encode($getData[$i]->user_id);
+                    $username = Tenantusers::where('id', $getData[$i]->user_id)->first();
+                    $returnData['data'][$i]['username'] = $username->first_name . ' ' . $username->last_name;
                     $returnData['data'][$i]['role_name'] = $getData[$i]->role_name;
                     $returnData['data'][$i]['event_name'] = $getData[$i]->event_name;
                     $returnData['data'][$i]['module'] = $getData[$i]->module;

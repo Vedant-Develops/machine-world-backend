@@ -39,7 +39,9 @@ class UpdateTenantusersAction extends ParentAction
       $userImage = '';
     }
 
-
+    $country_id = $this->decode($InputData->getCountry());
+    $state_id = $this->decode($InputData->getState());
+    $city_id = $this->decode($InputData->getCity());
 
     if ($userImage == "") {
       $data = $request->sanitizeInput([
@@ -50,11 +52,14 @@ class UpdateTenantusersAction extends ParentAction
         'gender' => $InputData->getGender(),
         'mobile' => $InputData->getMobile(),
         'address' => $InputData->getAddress(),
-        'country' => $InputData->getCountry(),
-        'state' => $InputData->getState(),
-        'city' => $InputData->getCity(),
+        // 'country' => $InputData->getCountry(),
+        // 'state' => $InputData->getState(),
+        // 'city' => $InputData->getCity(),
         'zipcode' => $InputData->getZipcode(),
       ]);
+      $data['country_id'] = $country_id;
+      $data['state_id'] = $state_id;
+      $data['city_id'] = $city_id;
     } else {
       $data = $request->sanitizeInput([
         'first_name' => $InputData->getFirstName(),
@@ -65,13 +70,16 @@ class UpdateTenantusersAction extends ParentAction
         'gender' => $InputData->getGender(),
         'mobile' => $InputData->getMobile(),
         'address' => $InputData->getAddress(),
-        'country' => $InputData->getCountry(),
-        'state' => $InputData->getState(),
-        'city' => $InputData->getCity(),
+        // 'country' => $InputData->getCountry(),
+        // 'state' => $InputData->getState(),
+        // 'city' => $InputData->getCity(),
         'zipcode' => $InputData->getZipcode(),
         'created_by' =>  $tenantid,
         'updated_by' =>  $tenantid,
       ]);
+      $data['country_id'] = $country_id;
+      $data['state_id'] = $state_id;
+      $data['city_id'] = $city_id;
     }
     $data = array_filter($data);
 

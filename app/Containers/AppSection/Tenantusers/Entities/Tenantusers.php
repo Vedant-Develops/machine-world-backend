@@ -25,9 +25,9 @@ class Tenantusers
     protected $mobile;
     protected $otp;
     protected $address;
-    protected $country;
-    protected $state;
-    protected $city;
+    protected $country_id;
+    protected $state_id;
+    protected $city_id;
     protected $zipcode;
     protected $is_active;
     protected $oldpassword;
@@ -60,9 +60,9 @@ class Tenantusers
         $this->mobile          = isset($request['mobile']) ? $request['mobile'] : null;
         $this->otp          = isset($request['otp']) ? $request['otp'] : null;
         $this->address          = isset($request['address']) ? $request['address'] : null;
-        $this->country          = isset($request['country']) ? $request['country'] : null;
-        $this->state          = isset($request['state']) ? $request['state'] : null;
-        $this->city          = isset($request['city']) ? $request['city'] : null;
+        $this->country_id          = isset($request['country_id']) ? $request['country_id'] : null;
+        $this->state_id          = isset($request['state_id']) ? $request['state_id'] : null;
+        $this->city_id          = isset($request['city_id']) ? $request['city_id'] : null;
         $this->zipcode          = isset($request['zipcode']) ? $request['zipcode'] : null;
         $this->is_active          = isset($request['is_active']) ? $request['is_active'] : null;
         $this->password          = isset($request['password']) ? $request['password'] : null;
@@ -167,15 +167,15 @@ class Tenantusers
     }
     public function getCountry()
     {
-        return $this->country;
+        return $this->country_id;
     }
     public function getState()
     {
-        return $this->state;
+        return $this->state_id;
     }
     public function getCity()
     {
-        return $this->city;
+        return $this->city_id;
     }
     public function getZipcode()
     {

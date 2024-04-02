@@ -25,5 +25,5 @@
 use App\Containers\AppSection\InquiryQuotation\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('deletequotations/{id}', [Controller::class, 'deleteInquiryQuotation'])
+Route::post('deletequotations', [Controller::class, 'deleteInquiryQuotation'])
     ->middleware(['auth:tenant']);

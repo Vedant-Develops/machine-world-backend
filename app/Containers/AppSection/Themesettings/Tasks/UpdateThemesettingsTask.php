@@ -43,6 +43,15 @@ class UpdateThemesettingsTask extends ParentTask
                 "facebook_link" => $InputData->getFaceBookLink(),
                 "instagram_link" => $InputData->getInstagramLink(),
                 "youtube_link" => $InputData->getYoutubeLink(),
+                "cgst" => $InputData->getCgst(),
+                "sgst" => $InputData->getSgst(),
+                "igst" => $InputData->getIgst(),
+                "bank_acc_no"  => $InputData->getBankAccNo(),
+                "bank_name" => $InputData->getBankName(),
+                "ifsc_no" => $InputData->getIFSCNo(),
+                "gst_no" => $InputData->getGSTNo(),
+                "office_address" => $InputData->getOfficeAddress(),
+                "factory_address"  => $InputData->getFactoryAddress()
             ];
             $data = array_filter($data);
             $update = Themesettings::where('id', $id)->update($data);

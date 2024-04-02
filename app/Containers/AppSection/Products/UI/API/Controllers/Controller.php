@@ -47,7 +47,7 @@ class Controller extends ApiController
     public function getAllProducts(GetAllProductsRequest $request)
     {
         $products = app(GetAllProductsAction::class)->run($request);
-        return $this->transform($products, ProductsTransformer::class);
+        return $products;
     }
 
 

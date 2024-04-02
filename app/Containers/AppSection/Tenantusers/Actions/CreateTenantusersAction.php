@@ -51,7 +51,9 @@ class CreateTenantusersAction extends ParentAction
       $uniquePassword = "mw123456";
 
       $check_email = Tenantusers::select('email')->where('email', $InputData->getEmail())->count();
-
+      $country_id = $this->decode($InputData->getCountry());
+      $state_id = $this->decode($InputData->getState());
+      $city_id = $this->decode($InputData->getCity());
       if ($check_email == 0) {
         $data = $request->sanitizeInput([
           'role_id' => $role_id,
@@ -66,14 +68,17 @@ class CreateTenantusersAction extends ParentAction
           'user_has_key' => $uniquePassword,
           'mobile' => $InputData->getMobile(),
           'address' => $InputData->getAddress(),
-          'country' => $InputData->getCountry(),
-          'state' => $InputData->getState(),
-          'city' => $InputData->getCity(),
+          // 'country_id' => $InputData->getCountry(),
+          // 'state_id' => $InputData->getState(),
+          // 'city_id' => $InputData->getCity(),
           'zipcode' => $InputData->getZipcode(),
           'is_active' => $InputData->getIsActive(),
           'created_by' =>  $tenantid,
           'updated_by' =>  $tenantid,
         ]);
+        $data['country_id'] = $country_id;
+        $data['state_id'] = $state_id;
+        $data['city_id'] = $city_id;
       } else {
         $returnData['messsage'] = "Email Already Exists in System";
         return $returnData;

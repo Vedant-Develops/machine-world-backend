@@ -17,17 +17,26 @@ class UpdateCitymasterAction extends ParentAction
     use HashIdTrait;
     public function run(UpdateCitymasterRequest $request, $InputData)
     {
-        $data = [];
-        if (Citymaster::where('city', $InputData->getCity())->exists() == 0) {
-            $data = $request->sanitizeInput([
-                "city" => $InputData->getCity(),
-            ]);
+        if (Citymaster::where('id', '!=', $request->id)->where('city', $InputData->getCity())->whereNull('deleted_at')->count() == 0) {
+            if ($InputData->getFlag() == "status") {
+                $data = $request->sanitizeInput([
+                    "is_active" => $InputData->getIsActive(),
+                ]);
+            } else {
+                $data = $request->sanitizeInput([
+                    "city" => $InputData->getCity(),
+                ]);
+                $data['country_id'] = $this->decode($InputData->getCountryId());
+                $data['state_id'] = $this->decode($InputData->getStateId());
+                $data = array_filter($data);
+            }
         } else {
             $returnData['result'] = false;
             $returnData['message'] = "City Already Exists";
             $returnData['object'] = "citymaster";
             return $returnData;
         }
+
 
 
         return app(UpdateCitymasterTask::class)->run($data, $request->id);

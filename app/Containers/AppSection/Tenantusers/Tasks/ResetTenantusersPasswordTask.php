@@ -65,7 +65,8 @@ class ResetTenantusersPasswordTask extends ParentTask
                     $datatenantuser['tenantemail']     = $theme_setting->email;
                     $datatenantuser['tenantname']     = $theme_setting->name;
                     $datatenantuser['mobile']       = $theme_setting->mobile;
-                    $datatenantuser['sitelogo'] =  $theme_setting->logo;
+                    $datatenantuser['sitelogo'] =   ($theme_setting->logo) ? $theme_setting->image_api_url . $theme_setting->logo : "";
+
 
                     $config = array(
                         'driver'     => trim($theme_setting->mailer),

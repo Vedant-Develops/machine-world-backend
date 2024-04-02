@@ -38,9 +38,9 @@ class FindTenantusersByIdTask extends ParentTask
                 $returnData['data']['email'] = $getData->email;
                 $returnData['data']['mobile'] = $getData->mobile;
                 $returnData['data']['address'] = $getData->address;
-                $returnData['data']['country'] = $getData->country;
-                $returnData['data']['state'] = $getData->state;
-                $returnData['data']['city'] = $getData->city;
+                $returnData['data']['country_id'] = $this->encode($getData->country_id);
+                $returnData['data']['state_id'] = $this->encode($getData->state_id);
+                $returnData['data']['city_id'] = $this->encode($getData->city_id);
                 $returnData['data']['zipcode'] = $getData->zipcode;
                 $returnData['data']['is_active'] = $getData->is_active;
                 $returnData['data']['created_by'] = $getData->created_by;

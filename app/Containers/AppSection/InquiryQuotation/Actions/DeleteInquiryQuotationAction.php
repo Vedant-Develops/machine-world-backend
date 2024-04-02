@@ -11,8 +11,8 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 class DeleteInquiryQuotationAction extends ParentAction
 {
 
-    public function run(DeleteInquiryQuotationRequest $request)
+    public function run(DeleteInquiryQuotationRequest $request, $InputData)
     {
-        return app(DeleteInquiryQuotationTask::class)->run($request->id);
+        return app(DeleteInquiryQuotationTask::class)->run($InputData);
     }
 }

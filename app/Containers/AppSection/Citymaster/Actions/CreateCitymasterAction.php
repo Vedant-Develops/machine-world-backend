@@ -19,11 +19,11 @@ class CreateCitymasterAction extends ParentAction
         $country_id = $this->decode($InputData->getCountryId());
         $data = [];
 
-        if (Citymaster::where('city', $InputData->getCityName())->whereNull('deleted_at')->count() == 0) {
+        if (Citymaster::where('city', $InputData->getCity())->whereNull('deleted_at')->count() == 0) {
             $data = $request->sanitizeInput([
                 //"country_id" => $country_id,
                 //  "state_id" => $state_id,
-                "city" => $InputData->getCityName(),
+                "city" => $InputData->getCity(),
                 "is_active" => 1
             ]);
             $data['country_id'] = $country_id;

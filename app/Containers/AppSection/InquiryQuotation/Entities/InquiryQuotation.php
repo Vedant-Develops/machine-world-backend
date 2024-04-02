@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class InquiryQuotation
 {
     protected $inquiry_type;
+    protected $quotation_id;
+    protected $flag;
     protected $existing_machines;
     protected $inquiry_code;
     protected $client_name;
@@ -18,15 +20,16 @@ class InquiryQuotation
     protected $village;
     protected $mobile;
     protected $address;
-    protected $country;
-    protected $state;
-    protected $city;
+    protected $country_id;
+    protected $state_id;
+    protected $city_id;
     protected $is_active;
     protected $keyword;
     protected $remarks;
     protected $company_name;
     protected $followup_date;
     protected $delivery_time_period;
+    protected $product_id;
 
     protected $client_inquiry_id;
     protected $quotation_code;
@@ -40,6 +43,8 @@ class InquiryQuotation
     protected $discount_price;
     protected $created_by;
     protected $updated_by;
+    protected $month;
+    protected $year;
 
     protected $search_val;
     protected $field_db;
@@ -47,6 +52,11 @@ class InquiryQuotation
 
     public function __construct($request = null)
     {
+        $this->month = isset($request['month']) ? $request['month'] : null;
+        $this->year = isset($request['year']) ? $request['year'] : null;
+        $this->quotation_id = isset($request['quotation_id']) ? $request['quotation_id'] : null;
+        $this->product_id = isset($request['product_id']) ? $request['product_id'] : null;
+        $this->flag = isset($request['flag']) ? $request['flag'] : null;
         $this->existing_machines = isset($request['existing_machines']) ? $request['existing_machines'] : null;
         $this->village = isset($request['village']) ? $request['village'] : null;
         $this->inquiry_type = isset($request['inquiry_type']) ? $request['inquiry_type'] : null;
@@ -55,9 +65,9 @@ class InquiryQuotation
         $this->email = isset($request['email']) ? $request['email'] : null;
         $this->mobile = isset($request['mobile']) ? $request['mobile'] : null;
         $this->address = isset($request['address']) ? $request['address'] : null;
-        $this->country = isset($request['country']) ? $request['country'] : null;
-        $this->state = isset($request['state']) ? $request['state'] : null;
-        $this->city = isset($request['city']) ? $request['city'] : null;
+        $this->country_id = isset($request['country_id']) ? $request['country_id'] : null;
+        $this->state_id = isset($request['state_id']) ? $request['state_id'] : null;
+        $this->city_id = isset($request['city_id']) ? $request['city_id'] : null;
         $this->is_active = isset($request['is_active']) ? $request['is_active'] : null;
         $this->keyword = isset($request['keyword']) ? $request['keyword'] : null;
         $this->remarks = isset($request['remarks']) ? $request['remarks'] : null;
@@ -78,11 +88,32 @@ class InquiryQuotation
         $this->created_by = isset($request['created_by']) ? $request['created_by'] : null;
         $this->updated_by = isset($request['updated_by']) ? $request['updated_by'] : null;
 
-
         $this->keyword =  isset($request['keyword']) ? $request['keyword'] : null;
         $this->search_val =  isset($request['search_val']) ? $request['search_val'] : null;
         $this->field_db =  isset($request['field_db']) ? $request['field_db'] : null;
         $this->per_page = isset($request['per_page']) ? $request['per_page'] : null;
+    }
+    public function getMonth()
+    {
+        return $this->month;
+    }
+    public function getYear()
+    {
+        return $this->year;
+    }
+    public function getQuotationId()
+    {
+        return $this->quotation_id;
+    }
+
+    public function getProductId()
+    {
+        return $this->product_id;
+    }
+
+    public function getFlag()
+    {
+        return $this->flag;
     }
 
     public function getExistingMachines()
@@ -126,17 +157,17 @@ class InquiryQuotation
 
     public function getCountry()
     {
-        return $this->country;
+        return $this->country_id;
     }
 
     public function getState()
     {
-        return $this->state;
+        return $this->state_id;
     }
 
     public function getCity()
     {
-        return $this->city;
+        return $this->city_id;
     }
 
     public function getIsActive()

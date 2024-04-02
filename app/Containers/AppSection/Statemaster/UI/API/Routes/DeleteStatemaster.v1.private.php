@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Statemaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::delete('statemasters/{id}', [Controller::class, 'deleteStatemaster'])
-    ->middleware(['auth:api']);
-
+Route::get('getstatemasters/{id}', [Controller::class, 'deleteStatemaster'])
+    ->middleware(['auth:tenant']);

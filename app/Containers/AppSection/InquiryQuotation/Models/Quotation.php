@@ -14,6 +14,7 @@ class Quotation extends ParentModel
         'client_inquiry_id',
         'inquiry_code',
         'quotation_code',
+        'product_id',
         'product_name',
         'qty',
         'base_price',

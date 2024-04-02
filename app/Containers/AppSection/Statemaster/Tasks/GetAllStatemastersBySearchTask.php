@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Containers\AppSection\Citymaster\Tasks;
+namespace App\Containers\AppSection\Statemaster\Tasks;
 
 use Apiato\Core\Exceptions\CoreInternalErrorException;
 use Apiato\Core\Traits\HashIdTrait;
-use App\Containers\AppSection\Citymaster\Data\Repositories\CitymasterRepository;
-use App\Containers\AppSection\Citymaster\Models\Citymaster;
+use App\Containers\AppSection\Statemaster\Data\Repositories\StatemasterRepository;
 use App\Containers\AppSection\Statemaster\Models\Statemaster;
 use App\Ship\Parents\Tasks\Task as ParentTask;
 use Exception;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-class GetAllCitymastersBySearchTask extends ParentTask
+class GetAllStatemastersBySearchTask extends ParentTask
 {
     use HashIdTrait;
-    protected CitymasterRepository $repository;
-    public function __construct(CitymasterRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        protected StatemasterRepository $repository
+    ) {
     }
+
 
     public function run($InputData)
     {
@@ -26,30 +25,26 @@ class GetAllCitymastersBySearchTask extends ParentTask
 
             $returnData = array();
             $per_page = (int) $InputData->getPerPage();
-
             $field_db = $InputData->getFieldDB();
             $search_val = $InputData->getSearchVal();
 
             if (($field_db == "") || ($field_db == NULL)) {
-                $getData = Citymaster::paginate($per_page);
+                $getData = Statemaster::paginate($per_page);
             } else {
-                if ($field_db == "country_id" || $field_db == "state_id") {
+                if ($field_db == "country_id") {
                     $search_val = $this->decode($search_val);
                 }
-                $getData = Citymaster::where($field_db, 'like', '%' . $search_val . '%')->paginate($per_page);
+                $getData = Statemaster::where($field_db, 'like', '%' . $search_val . '%')->paginate($per_page);
             }
 
             if (!empty($getData) && count($getData) >= 1) {
-
                 $returnData['message'] = "Data Found";
                 for ($i = 0; $i < count($getData); $i++) {
-                    $returnData['data'][$i]['object'] = "citymaster";
+                    $returnData['data'][$i]['object'] = "mw_statemaster";
                     $returnData['data'][$i]['id'] = $this->encode($getData[$i]->id);
-                    $returnData['data'][$i]['country_id'] =  $this->encode($getData[$i]->country_id);
-                    $returnData['data'][$i]['state_id'] = $this->encode($getData[$i]->state_id);
-                    $state_data = Statemaster::select('state')->where('id', $getData[$i]->state_id)->first();
-                    $returnData['data'][$i]['state'] = $state_data->state;
-                    $returnData['data'][$i]['city'] = $getData[$i]->city;
+
+                    $returnData['data'][$i]['country_id'] = $this->encode($getData[$i]->country_id);
+                    $returnData['data'][$i]['state'] = $getData[$i]->state;
                     $returnData['data'][$i]['is_active'] = $getData[$i]->is_active;
                     $returnData['data'][$i]['created_at'] = $getData[$i]->created_at;
                     $returnData['data'][$i]['updated_at'] = $getData[$i]->updated_at;
@@ -62,9 +57,8 @@ class GetAllCitymastersBySearchTask extends ParentTask
                 $returnData['meta']['pagination']['links']['previous'] = $getData->previousPageUrl();
                 $returnData['meta']['pagination']['links']['next'] = $getData->nextPageUrl();
             } else {
-
                 $returnData['message'] = "Data Not Found";
-                $returnData['object'] = "citymaster";
+                $returnData['object'] = "mw_statemaster";
                 $returnData['meta']['pagination']['total'] = $getData->total();
                 $returnData['meta']['pagination']['count'] = $getData->count();
                 $returnData['meta']['pagination']['per_page'] = $getData->perPage();
@@ -78,7 +72,7 @@ class GetAllCitymastersBySearchTask extends ParentTask
             return [
 
                 'message' => 'Error: Failed to get the resource. Please try again later.',
-                'object' => 'citymaster',
+                'object' => 'mw_statemaster',
                 'data' => [],
             ];
         }

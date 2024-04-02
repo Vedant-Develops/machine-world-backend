@@ -3,6 +3,7 @@
 namespace App\Containers\AppSection\InquiryQuotation\Actions;
 
 use Apiato\Core\Exceptions\IncorrectIdException;
+use Apiato\Core\Traits\HashIdTrait;
 use App\Containers\AppSection\InquiryQuotation\Models\ClientInquiry;
 use App\Containers\AppSection\InquiryQuotation\Models\InquiryQuotation;
 use App\Containers\AppSection\InquiryQuotation\Models\Quotation;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UpdateInquiryQuotationAction extends ParentAction
 {
-
+    use HashIdTrait;
     public function run(UpdateInquiryQuotationRequest $request, $InputData)
     {
         $getUser = Auth::user();
@@ -47,9 +48,9 @@ class UpdateInquiryQuotationAction extends ParentAction
             'client_name' => $InputData->getClientName(),
             'mobile' => $InputData->getMobile(),
             'email' => $InputData->getEmail(),
-            'country' => $InputData->getCountry(),
-            'state' => $InputData->getState(),
-            'city' => $InputData->getCity(),
+            // 'country' => $InputData->getCountry(),
+            // 'state' => $InputData->getState(),
+            // 'city' => $InputData->getCity(),
             'village' => $InputData->getVillage(),
             'address' => $InputData->getAddress(),
             'company_name' => $InputData->getCompanyName(),
@@ -59,6 +60,9 @@ class UpdateInquiryQuotationAction extends ParentAction
             'delivery_time_period' => $InputData->getDeliveryTimePeriod(),
             'updated_by' => $getUser['id'],
         ]);
+        $data['country_id'] = $this->decode($InputData->getCountry());
+        $data['state_id'] = $this->decode($InputData->getState());
+        $data['city_id'] = $this->decode($InputData->getCity());
         $data = array_filter($data);
 
 
@@ -67,6 +71,8 @@ class UpdateInquiryQuotationAction extends ParentAction
         $create_data_quotation = [];
         if (!empty($create_product)) {
             for ($i = 0; $i < count($create_product); $i++) {
+                $product_id = $this->decode($create_product[$i]['product_id']);
+
                 $create_data_quotation[$i] = $request->sanitizeInput([
                     'client_inquiry_id' => $get_cl_inquiry->id,
                     'inquiry_code' => $get_cl_inquiry->inquiry_code,
@@ -81,6 +87,7 @@ class UpdateInquiryQuotationAction extends ParentAction
                     'created_by' => $getUser['id'],
                     'updated_by' => $getUser['id'],
                 ]);
+                $create_data_quotation[$i]['product_id'] = $product_id;
             }
         }
 
@@ -91,6 +98,7 @@ class UpdateInquiryQuotationAction extends ParentAction
         $update_data_quotation = [];
         if (!empty($update_product)) {
             for ($i = 0; $i < count($update_product); $i++) {
+                $product_id = $this->decode($update_product[$i]['product_id']);
                 $update_data_quotation[$i] = $request->sanitizeInput([
                     'quotation_code' => $quo_code,
                     'product_name' => $update_product[$i]['product_name'],
@@ -101,6 +109,7 @@ class UpdateInquiryQuotationAction extends ParentAction
                     'remarks' => $update_product[$i]['remarks'],
                     'updated_by' => $getUser['id'],
                 ]);
+                $update_data_quotation[$i]['product_id'] = $product_id;
             }
         }
 

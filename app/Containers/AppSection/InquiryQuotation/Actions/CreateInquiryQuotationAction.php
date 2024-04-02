@@ -3,6 +3,7 @@
 namespace App\Containers\AppSection\InquiryQuotation\Actions;
 
 use Apiato\Core\Exceptions\IncorrectIdException;
+use Apiato\Core\Traits\HashIdTrait;
 use App\Containers\AppSection\InquiryQuotation\Models\ClientInquiry;
 use App\Containers\AppSection\InquiryQuotation\Models\InquiryQuotation;
 use App\Containers\AppSection\InquiryQuotation\Tasks\CreateInquiryQuotationTask;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateInquiryQuotationAction extends ParentAction
 {
-
+    use HashIdTrait;
     public function run(CreateInquiryQuotationRequest $request, $InputData)
     {
         $getUser = Auth::user();
@@ -41,9 +42,9 @@ class CreateInquiryQuotationAction extends ParentAction
             'client_name' => $InputData->getClientName(),
             'mobile' => $InputData->getMobile(),
             'email' => $InputData->getEmail(),
-            'country' => $InputData->getCountry(),
-            'state' => $InputData->getState(),
-            'city' => $InputData->getCity(),
+            // 'country_id' => $this->decode($InputData->getCountry()),
+            // 'state_id' => $this->decode($InputData->getState()),
+            // 'city_id' => $this->decode($InputData->getCity()),
             'village' => $InputData->getVillage(),
             'address' => $InputData->getAddress(),
             'company_name' => $InputData->getCompanyName(),
@@ -55,11 +56,15 @@ class CreateInquiryQuotationAction extends ParentAction
             'created_by' => $getUser['id'],
             'updated_by' => $getUser['id'],
         ]);
-
+        $data['country_id'] = $this->decode($InputData->getCountry());
+        $data['state_id'] = $this->decode($InputData->getState());
+        $data['city_id'] = $this->decode($InputData->getCity());
         $product = $InputData->getProducts();
         $data_quotation = [];
         if (!empty($product)) {
             for ($i = 0; $i < count($product); $i++) {
+                $product_id = $this->decode($product[$i]['product_id']);
+
                 $data_quotation[$i] = $request->sanitizeInput([
                     'inquiry_code' => $inq_code,
                     'product_name' => $product[$i]['product_name'],
@@ -68,8 +73,10 @@ class CreateInquiryQuotationAction extends ParentAction
                     'created_by' => $getUser['id'],
                     'updated_by' => $getUser['id'],
                 ]);
+                $data_quotation[$i]['product_id'] = $product_id;
             }
         }
+
 
         return app(CreateInquiryQuotationTask::class)->run($data, $data_quotation);
     }

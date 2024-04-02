@@ -7,9 +7,10 @@ use Apiato\Core\Exceptions\InvalidTransformerException;
 use App\Containers\AppSection\Statemaster\Actions\CreateStatemasterAction;
 use App\Containers\AppSection\Statemaster\Actions\DeleteStatemasterAction;
 use App\Containers\AppSection\Statemaster\Actions\FindStatemasterByIdAction;
-use App\Containers\AppSection\Statemaster\Actions\GetAllStatemastersAction;
+use App\Containers\AppSection\Statemaster\Actions\GetAllStatemastersBySearchAction;
 use App\Containers\AppSection\Statemaster\Actions\GetAllStatemastersByCountryIdAction;
 use App\Containers\AppSection\Statemaster\Actions\UpdateStatemasterAction;
+use App\Containers\AppSection\Statemaster\Entities\Statemaster;
 use App\Containers\AppSection\Statemaster\UI\API\Requests\CreateStatemasterRequest;
 use App\Containers\AppSection\Statemaster\UI\API\Requests\DeleteStatemasterRequest;
 use App\Containers\AppSection\Statemaster\UI\API\Requests\FindStatemasterByIdRequest;
@@ -27,38 +28,25 @@ use Prettus\Repository\Exceptions\RepositoryException;
 class Controller extends ApiController
 {
 
-    public function createStatemaster(CreateStatemasterRequest $request): JsonResponse
+    public function createStatemaster(CreateStatemasterRequest $request)
     {
-        $statemaster = app(CreateStatemasterAction::class)->run($request);
-
-        return $this->created($this->transform($statemaster, StatemasterTransformer::class));
+        $InputData = new Statemaster($request);
+        $statemaster = app(CreateStatemasterAction::class)->run($request, $InputData);
+        return $statemaster;
     }
 
-    /**
-     * @param FindStatemasterByIdRequest $request
-     * @return array
-     * @throws InvalidTransformerException
-     * @throws NotFoundException
-     */
-    public function findStatemasterById(FindStatemasterByIdRequest $request): array
+    public function findStatemasterById(FindStatemasterByIdRequest $request)
     {
         $statemaster = app(FindStatemasterByIdAction::class)->run($request);
-
-        return $this->transform($statemaster, StatemasterTransformer::class);
+        return $statemaster;
     }
 
-    /**
-     * @param GetAllStatemastersRequest $request
-     * @return array
-     * @throws InvalidTransformerException
-     * @throws CoreInternalErrorException
-     * @throws RepositoryException
-     */
-    public function getAllStatemasters(GetAllStatemastersRequest $request): array
-    {
-        $statemasters = app(GetAllStatemastersAction::class)->run($request);
 
-        return $this->transform($statemasters, StatemasterTransformer::class);
+    public function getAllStatemastersBySearch(GetAllStatemastersRequest $request)
+    {
+        $InputData = new Statemaster($request);
+        $statemasters = app(GetAllStatemastersBySearchAction::class)->run($request, $InputData);
+        return $statemasters;
     }
 
 
@@ -68,28 +56,18 @@ class Controller extends ApiController
         return $statemasters;
     }
 
-    /**
-     * @param UpdateStatemasterRequest $request
-     * @return array
-     * @throws InvalidTransformerException
-     * @throws UpdateResourceFailedException
-     */
-    public function updateStatemaster(UpdateStatemasterRequest $request): array
-    {
-        $statemaster = app(UpdateStatemasterAction::class)->run($request);
 
-        return $this->transform($statemaster, StatemasterTransformer::class);
+    public function updateStatemaster(UpdateStatemasterRequest $request)
+    {
+        $InputData = new Statemaster($request);
+        $statemaster = app(UpdateStatemasterAction::class)->run($request, $InputData);
+        return $statemaster;
     }
 
-    /**
-     * @param DeleteStatemasterRequest $request
-     * @return JsonResponse
-     * @throws DeleteResourceFailedException
-     */
-    public function deleteStatemaster(DeleteStatemasterRequest $request): JsonResponse
-    {
-        app(DeleteStatemasterAction::class)->run($request);
 
-        return $this->noContent();
+    public function deleteStatemaster(DeleteStatemasterRequest $request)
+    {
+        $statemaster =    app(DeleteStatemasterAction::class)->run($request);
+        return $statemaster;
     }
 }

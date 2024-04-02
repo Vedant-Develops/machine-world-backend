@@ -51,9 +51,10 @@ class GetAllTenantusersTask extends ParentTask
                     $returnData['data'][$i]['email'] = $getData[$i]->email;
                     $returnData['data'][$i]['mobile'] = $getData[$i]->mobile;
                     $returnData['data'][$i]['address'] = $getData[$i]->address;
-                    $returnData['data'][$i]['country'] = $getData[$i]->country;
-                    $returnData['data'][$i]['state'] = $getData[$i]->state;
-                    $returnData['data'][$i]['city'] = $getData[$i]->city;
+                    $returnData['data'][$i]['country_id'] = $this->encode($getData[$i]->country_id);
+                    $returnData['data'][$i]['state_id'] = $this->encode($getData[$i]->state_id);
+                    $returnData['data'][$i]['city_id'] = $this->encode($getData[$i]->city_id);
+
                     $returnData['data'][$i]['zipcode'] = $getData[$i]->zipcode;
                     $returnData['data'][$i]['is_active'] = $getData[$i]->is_active;
                     $returnData['data'][$i]['created_by'] = $getData[$i]->created_by;

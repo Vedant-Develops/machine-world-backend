@@ -11,7 +11,8 @@ use App\Ship\Exceptions\UpdateResourceFailedException;
 use App\Ship\Parents\Actions\Action as ParentAction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Apiato\Core\Traits\HashIdTrait;
 
 class UpdateThemesettingsAction extends ParentAction
@@ -33,37 +34,14 @@ class UpdateThemesettingsAction extends ParentAction
                 if (!file_exists(public_path($imagearray_key . '/'))) {
                     mkdir(public_path($imagearray_key . '/'), 0755, true);
                 }
+                $manager = new ImageManager(Driver::class);
                 $image_type = "png";
                 $folderPath = '/api/public/' . $imagearray_key . '/';
-                $image_bace64 = base64_decode($imagearray_value);
+                // $image_bace64 = base64_decode($imagearray_value);
                 $file = uniqid() . '.' . $image_type;
-                $image_enc_bace64 = "data:image/png;base64," . $imagearray_value;
-                if (!empty($exif['Orientation'])) {
-                    if ($exif['Orientation'] == 8) {
-                        $img = Image::make($image_enc_bace64);
-                        $img->rotate(90);
-                        $img->resize(1920, 520);
-                        $img->save(public_path($imagearray_key . '/' . $file));
-                    } elseif ($exif['Orientation'] == 3) {
-                        $img = Image::make($image_enc_bace64);
-                        $img->rotate(180);
-                        $img->resize(1920, 520);
-                        $img->save(public_path($imagearray_key . '/' . $file));
-                    } elseif ($exif['Orientation'] == 6) {
-                        $img = Image::make($image_enc_bace64);
-                        $img->rotate(-90);
-                        $img->resize(1920, 520);
-                        $img->save(public_path($imagearray_key . '/' . $file));
-                    } else {
-                        $img = Image::make($image_enc_bace64);
-                        $img->resize(1920, 520);
-                        $img->save(public_path($imagearray_key . '/' . $file));
-                    }
-                } else {
-                    $img = Image::make($image_enc_bace64);
-                    $img->resize(1920, 520);
-                    $img->save(public_path($imagearray_key . '/' . $file));
-                }
+                // $image_enc_bace64 = "data:image/png;base64," . $imagearray_value;
+                $image = $manager->read($imagearray_value);
+                $saveimage = $image->toPng()->save(public_path($imagearray_key . '/' . $file));
                 $image_upload[$imagearray_key] =  $folderPath . $file;
             } else {
                 $image_upload[$imagearray_key] = '';

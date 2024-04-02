@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Statemaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('statemasters/{id}', [Controller::class, 'findStatemasterById'])
-    ->middleware(['auth:api']);
-
+Route::get('getstatemastersbyid/{id}', [Controller::class, 'findStatemasterById'])
+    ->middleware(['auth:tenant']);

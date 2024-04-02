@@ -7,6 +7,7 @@ use App\Containers\AppSection\InquiryQuotation\Data\Repositories\InquiryQuotatio
 use App\Containers\AppSection\InquiryQuotation\Models\ClientInquiry;
 use App\Containers\AppSection\InquiryQuotation\Models\InquiryQuotation;
 use App\Containers\AppSection\InquiryQuotation\Models\Quotation;
+use App\Containers\AppSection\Products\Models\Products;
 use App\Containers\AppSection\Themesettings\Models\Themesettings;
 use App\Ship\Exceptions\NotFoundException;
 use App\Ship\Parents\Tasks\Task as ParentTask;
@@ -35,9 +36,9 @@ class FindInquiryQuotationByIdTask extends ParentTask
                 $returnData['data']['client_name'] = $getData->client_name;
                 $returnData['data']['mobile'] = $getData->mobile;
                 $returnData['data']['email'] = $getData->email;
-                $returnData['data']['country'] = $getData->country;
-                $returnData['data']['state'] = $getData->state;
-                $returnData['data']['city'] = $getData->city;
+                $returnData['data']['country_id'] = $this->encode($getData->country_id);
+                $returnData['data']['state_id'] = $this->encode($getData->state_id);
+                $returnData['data']['city_id'] = $this->encode($getData->city_id);
                 $returnData['data']['village'] = $getData->village;
                 $returnData['data']['address'] = $getData->address;
                 $returnData['data']['company_name'] = $getData->company_name;
@@ -51,20 +52,43 @@ class FindInquiryQuotationByIdTask extends ParentTask
 
                 $product_data = Quotation::where('client_inquiry_id', $getData->id)->get();
                 if (!empty($product_data)) {
-                    for ($j = 0; $j < count($product_data); $j++) {
-                        $returnData_prod[$j]['id'] = $this->encode($product_data[$j]->id);
-                        $returnData_prod[$j]['client_inquiry_id'] =  $this->encode($product_data[$j]->client_inquiry_id);
-                        $returnData_prod[$j]['inquiry_code'] = $product_data[$j]->inquiry_code;
-                        $returnData_prod[$j]['quotation_code'] = $product_data[$j]->quotation_code;
-                        $returnData_prod[$j]['product_name'] = $product_data[$j]->product_name;
-                        $returnData_prod[$j]['qty'] = $product_data[$j]->qty;
-                        $returnData_prod[$j]['base_price'] = $product_data[$j]->base_price;
-                        $returnData_prod[$j]['extra_price'] = $product_data[$j]->extra_price;
-                        $returnData_prod[$j]['discount_price'] = $product_data[$j]->discount_price;
-                        $returnData_prod[$j]['remarks'] = $product_data[$j]->remarks;
-                        $returnData_prod[$j]['is_active'] = $product_data[$j]->is_active;
-                        $returnData_prod[$j]['created_by'] =  $this->encode($product_data[$j]->created_by);
-                        $returnData_prod[$j]['updated_by'] =  $this->encode($product_data[$j]->updated_by);
+                    foreach ($product_data as $j => $product) {
+                        $quotationCode = $product->quotation_code;
+                        $quotationIndex = array_search($quotationCode, array_column($returnData_prod, 'quotation_code'));
+                        if ($quotationIndex === false) {
+                            $returnData_prod[] = [
+                                'client_inquiry_id' => $this->encode($product->client_inquiry_id),
+                                'inquiry_code' => $product->inquiry_code,
+                                'quotation_code' => $quotationCode,
+                                'created_by' => $this->encode($product->created_by),
+                                'updated_by' => $this->encode($product->updated_by),
+                                'products' => [
+                                    [
+                                        'quotation_id' => $this->encode($product->id),
+                                        'product_id' =>  $this->encode($product->product_id),
+                                        'product_specification' => Products::find($product->product_id)->product_specification ?? "",
+                                        'product_name' => $product->product_name,
+                                        'qty' => $product->qty,
+                                        'base_price' => $product->base_price,
+                                        'extra_price' => $product->extra_price,
+                                        'discount_price' => $product->discount_price,
+                                        'remarks' => $product->remarks,
+                                    ],
+                                ],
+                            ];
+                        } else {
+                            $returnData_prod[$quotationIndex]['products'][] = [
+                                'quotation_id' => $this->encode($product->id),
+                                'product_id' =>  $this->encode($product->product_id),
+                                'product_specification' =>  Products::find($product->product_id)->product_specification ?? "",
+                                'product_name' => $product->product_name,
+                                'qty' => $product->qty,
+                                'base_price' => $product->base_price,
+                                'extra_price' => $product->extra_price,
+                                'discount_price' => $product->discount_price,
+                                'remarks' => $product->remarks,
+                            ];
+                        }
                     }
                 } else {
                     $returnData_prod = [];

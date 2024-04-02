@@ -10,10 +10,8 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 
 class FindStatemasterByIdAction extends ParentAction
 {
-    /**
-     * @throws NotFoundException
-     */
-    public function run(FindStatemasterByIdRequest $request): Statemaster
+
+    public function run(FindStatemasterByIdRequest $request)
     {
         return app(FindStatemasterByIdTask::class)->run($request->id);
     }

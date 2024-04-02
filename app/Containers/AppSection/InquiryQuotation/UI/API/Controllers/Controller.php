@@ -95,7 +95,8 @@ class Controller extends ApiController
 
     public function deleteInquiryQuotation(DeleteInquiryQuotationRequest $request)
     {
-        $inquiryquotation = app(DeleteInquiryQuotationAction::class)->run($request);
+        $InputData = new InquiryQuotation($request);
+        $inquiryquotation = app(DeleteInquiryQuotationAction::class)->run($request, $InputData);
         return $inquiryquotation;
     }
 }

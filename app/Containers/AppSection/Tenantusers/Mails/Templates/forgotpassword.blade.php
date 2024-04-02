@@ -22,8 +22,8 @@
     <tbody>
       <tr>
         <td align="left" valign="top">
-          <div style="height: 110px; text-align: center;">
-            <center><img style="margin-top: 0px; border-radius: 5px; margin-bottom: 10px;" src="<?php echo $data['sitelogo']; ?>" alt="" width="80" /></center>
+          <div style="text-align: center;">
+            <center><img style="margin-top: 0px; border-radius: 5px; margin-bottom: 10px;" src="<?php echo $data['sitelogo']; ?>" alt="" width="120" /></center>
           </div>
         </td>
       </tr>

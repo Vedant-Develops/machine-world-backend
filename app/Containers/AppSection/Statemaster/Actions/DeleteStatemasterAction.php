@@ -10,13 +10,8 @@ use App\Ship\Parents\Actions\Action as ParentAction;
 
 class DeleteStatemasterAction extends ParentAction
 {
-    /**
-     * @param DeleteStatemasterRequest $request
-     * @return int
-     * @throws DeleteResourceFailedException
-     * @throws NotFoundException
-     */
-    public function run(DeleteStatemasterRequest $request): int
+
+    public function run(DeleteStatemasterRequest $request)
     {
         return app(DeleteStatemasterTask::class)->run($request->id);
     }

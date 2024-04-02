@@ -30,8 +30,8 @@ class FindThemesettingsByIdTask extends ParentTask
                 $returnData['data']['objects'] = 'sjp_theme_settings';
                 $returnData['data']['id'] = $this->encode($getData->id);
                 $returnData['data']['name'] = $getData->name;
-                $returnData['data']['logo'] = $image_api_url->image_api_url . $getData->logo;
-                $returnData['data']['favicon'] = $image_api_url->image_api_url . $getData->favicon;
+                $returnData['data']['logo'] = ($getData->logo) ? $image_api_url->image_api_url . $getData->logo : "";
+                $returnData['data']['favicon'] = ($getData->favicon) ? $image_api_url->image_api_url . $getData->favicon : "";
                 $returnData['data']['description'] = $getData->description;
                 $returnData['data']['mobile'] = $getData->mobile;
                 $returnData['data']['email'] = $getData->email;
@@ -51,6 +51,17 @@ class FindThemesettingsByIdTask extends ParentTask
                 $returnData['data']['instagram_link'] = $getData->instagram_link;
                 $returnData['data']['youtube_link'] = $getData->youtube_link;
                 $returnData['data']['image_api_url'] = $getData->image_api_url;
+                $returnData['data']['cgst'] = $getData->cgst;
+                $returnData['data']['sgst'] = $getData->sgst;
+                $returnData['data']['igst'] = $getData->igst;
+
+                $returnData['data']['bank_acc_no'] = $getData->bank_acc_no;
+                $returnData['data']['bank_name'] = $getData->bank_name;
+                $returnData['data']['ifsc_no'] = $getData->ifsc_no;
+                $returnData['data']['gst_no'] = $getData->gst_no;
+                $returnData['data']['office_address'] = $getData->office_address;
+                $returnData['data']['factory_address'] = $getData->factory_address;
+
                 $returnData['data']['created_at'] = $getData->created_at;
                 $returnData['data']['updated_at'] = $getData->updated_at;
                 $returnData['data']['deleted_at'] = $getData->deleted_at;

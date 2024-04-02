@@ -63,11 +63,11 @@ class Controller extends ApiController
         return $citymasters;
     }
 
-    public function updateCitymaster(UpdateCitymasterRequest $request): array
+    public function updateCitymaster(UpdateCitymasterRequest $request)
     {
-        $citymaster = app(UpdateCitymasterAction::class)->run($request);
-
-        return $this->transform($citymaster, CitymasterTransformer::class);
+        $InputData = new Citymaster($request);
+        $citymaster = app(UpdateCitymasterAction::class)->run($request, $InputData);
+        return $citymaster;
     }
 
     public function UpdateCitymasterStatus(UpdateCitymasterRequest $request)

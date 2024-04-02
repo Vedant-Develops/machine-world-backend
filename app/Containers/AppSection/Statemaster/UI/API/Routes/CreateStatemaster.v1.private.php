@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Statemaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::post('statemasters', [Controller::class, 'createStatemaster'])
-    ->middleware(['auth:api']);
-
+Route::post('createstatemasters', [Controller::class, 'createStatemaster'])
+    ->middleware(['auth:tenant']);

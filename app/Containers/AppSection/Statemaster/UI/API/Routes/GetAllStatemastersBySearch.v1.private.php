@@ -25,6 +25,5 @@
 use App\Containers\AppSection\Statemaster\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('statemasters', [Controller::class, 'getAllStatemasters'])
-    ->middleware(['auth:api']);
-
+Route::post('getallstatemastersbysearch', [Controller::class, 'getAllStatemastersBySearch'])
+    ->middleware(['auth:tenant']);

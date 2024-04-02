@@ -28,31 +28,67 @@ class GetAllQuotationsBySearchTask extends ParentTask
             $per_page = (int) $InputData->getPerPage();
             $field_db = $InputData->getFieldDB();
             $search_val = $InputData->getSearchVal();
+            $year = $InputData->getYear();
+            $month = $InputData->getMonth();
             if (($field_db == "") || ($field_db == NULL)) {
-                $product_data = Quotation::where('quotation_code', '!=', "")->paginate($per_page);
+                $product_data = Quotation::whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month)
+                    ->where('quotation_code', '!=', "")
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate($per_page);
             } else {
-                $product_data = Quotation::where('quotation_code', '!=', "")->where($field_db, 'like', '%' . $search_val . '%')->paginate($per_page);
+                $product_data = Quotation::whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month)
+                    ->where('quotation_code', '!=', "")
+                    ->orderBy('created_at', 'DESC')
+                    ->where($field_db, 'like', '%' . $search_val . '%')
+                    ->paginate($per_page);
             }
             $returnData_prod = [];
 
             if (!empty($product_data)) {
 
-                for ($j = 0; $j < count($product_data); $j++) {
-                    $returnData_prod[$j]['object'] = "mw_quotation";
-                    $returnData_prod[$j]['id'] = $this->encode($product_data[$j]->id);
-                    $returnData_prod[$j]['client_inquiry_id'] =  $this->encode($product_data[$j]->client_inquiry_id);
-                    $returnData_prod[$j]['inquiry_code'] = $product_data[$j]->inquiry_code;
-                    $returnData_prod[$j]['quotation_code'] = $product_data[$j]->quotation_code;
-                    $returnData_prod[$j]['product_name'] = $product_data[$j]->product_name;
-                    $returnData_prod[$j]['qty'] = $product_data[$j]->qty;
-                    $returnData_prod[$j]['base_price'] = $product_data[$j]->base_price;
-                    $returnData_prod[$j]['extra_price'] = $product_data[$j]->extra_price;
-                    $returnData_prod[$j]['discount_price'] = $product_data[$j]->discount_price;
-                    $returnData_prod[$j]['remarks'] = $product_data[$j]->remarks;
-                    $returnData_prod[$j]['is_active'] = $product_data[$j]->is_active;
-                    $returnData_prod[$j]['created_by'] =  $this->encode($product_data[$j]->created_by);
-                    $returnData_prod[$j]['updated_by'] =  $this->encode($product_data[$j]->updated_by);
+                foreach ($product_data as $j => $product) {
+                    $quotationCode = $product->quotation_code;
+
+                    $quotationIndex = array_search($quotationCode, array_column($returnData_prod, 'quotation_code'));
+
+                    if ($quotationIndex === false) {
+                        $returnData_prod[] = [
+                            'client_inquiry_id' => $this->encode($product->client_inquiry_id),
+                            'inquiry_code' => $product->inquiry_code,
+                            'quotation_code' => $quotationCode,
+                            'created_by' => $this->encode($product->created_by),
+                            'updated_by' => $this->encode($product->updated_by),
+                            'created_at' => $product->created_at,
+                            'updated_at' => $product->updated_at,
+                            'products' => [
+                                [
+                                    'quotation_id' => $this->encode($product->id),
+                                    'product_id' =>  $this->encode($product->product_id),
+                                    'product_name' => $product->product_name,
+                                    'qty' => $product->qty,
+                                    'base_price' => $product->base_price,
+                                    'extra_price' => $product->extra_price,
+                                    'discount_price' => $product->discount_price,
+                                    'remarks' => $product->remarks,
+                                ],
+                            ],
+                        ];
+                    } else {
+                        $returnData_prod[$quotationIndex]['products'][] = [
+                            'quotation_id' => $this->encode($product->id),
+                            'product_id' =>  $this->encode($product->product_id),
+                            'product_name' => $product->product_name,
+                            'qty' => $product->qty,
+                            'base_price' => $product->base_price,
+                            'extra_price' => $product->extra_price,
+                            'discount_price' => $product->discount_price,
+                            'remarks' => $product->remarks,
+                        ];
+                    }
                 }
+
                 $returnData['data'] = $returnData_prod;
                 $returnData['meta']['pagination']['total'] = $product_data->total();
                 $returnData['meta']['pagination']['count'] = $product_data->count();
